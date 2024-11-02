@@ -178,7 +178,7 @@ func runContainerImage() *demo.Run {
 	r.Step(demo.S(
 		"Run container image",
 	), demo.S(
-		"docker run --platform=wasi/wasm --runtime=io.containerd.wasmedge.v1",
+		"docker run --platform=wasi/wasm --runtime=io.containerd.shim.wasmtime.v1",
 		"docker.io/ereslibre/wasm-example:0.0.1",
 	))
 

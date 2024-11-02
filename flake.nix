@@ -29,7 +29,10 @@
         inputs.nixpkgs = nixities.nixpkgs;
         modules = [
           ({pkgs, ...}: {
-            env.TERM = "xterm";
+            env = {
+              DOCKER_HOST = "unix:///var/run/docker.sock";
+              TERM = "xterm";
+            };
             languages = {
               c.enable = true;
               go.enable = true;
