@@ -168,6 +168,12 @@ func buildContainerImage() *demo.Run {
 	))
 
 	r.Step(demo.S(
+		"Build program",
+	), demo.S(
+		"clang --target=wasm32-wasi ../container-image/main.c -o ../container-image/hello-docker.wasm",
+	))
+
+	r.Step(demo.S(
 		"Dockerfile",
 	), demo.S(
 		"bat ../container-image/Dockerfile",

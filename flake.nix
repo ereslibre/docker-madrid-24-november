@@ -38,7 +38,18 @@
               c.enable = true;
               go.enable = true;
             };
-            packages = with pkgs; [alejandra bat fermyon-spin just wasm-tools wasmtime];
+            packages =
+              (with pkgs; [
+                alejandra
+                bat
+                fermyon-spin
+                just
+                wasm-tools
+                wasmtime
+              ])
+              ++ pkgs.lib.lists.optionals pkgs.stdenv.isx86_64 (with nixities.packages.${system}; [
+                wasi-sdk-20
+              ]);
           })
         ];
       };

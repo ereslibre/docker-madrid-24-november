@@ -21,3 +21,7 @@ run-image:
 run-php-script:
   clear
   @cd demo && go run . --run-php-script
+
+fmt:
+  find . -name "*.nix" | xargs alejandra
+  find demo -name "*.go" | xargs gofmt -w
