@@ -176,11 +176,18 @@ func runContainerImage() *demo.Run {
 	)
 
 	r.Step(demo.S(
-		"Run container image",
+		"Inspect container image",
 	), demo.S(
-		"docker run --platform=wasi/wasm --runtime=io.containerd.shim.wasmtime.v1",
-		"docker.io/ereslibre/wasm-example:0.0.1",
+		"docker inspect docker.io/ereslibre/wasm-example:0.0.1 | jq '.[].Architecture'",
 	))
+
+	r.Step(demo.S(
+		"Run container image",
+	),
+		demo.S(
+			"docker run --platform=wasi/wasm --runtime=io.containerd.shim.wasmtime.v1",
+			"docker.io/ereslibre/wasm-example:0.0.1",
+		))
 
 	return r
 }
