@@ -213,8 +213,7 @@ func runPHPScript() *demo.Run {
 	r.Step(demo.S(
 		"Run PHP script",
 	), demo.S(
-		"nix run nixpkgs/2eefc1dc8b06fa89331cf54d52c0f899470fedff#wasmtime -- run",
-		"--dir .::/demo",
+		"wasmtime run --dir .::/demo",
 		"php-cgi-8.2.6.wasm -- /demo/script.php",
 	))
 
