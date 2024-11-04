@@ -15,6 +15,7 @@ func main() {
 	d.Add(runWwsWithRemoteApp(), "run-wws-with-remote", "Run Wasm Workers Server with remote app (wws)")
 	d.Add(buildContainerImage(), "build-container-image", "Builds a WebAssembly container image")
 	d.Add(runContainerImage(), "run-container-image", "Runs a WebAssembly container image")
+	d.Add(runPHPScript(), "run-php-script", "Runs a PHP script")
 
 	d.Run()
 }
@@ -188,6 +189,28 @@ func runContainerImage() *demo.Run {
 			"docker run --platform=wasi/wasm --runtime=io.containerd.shim.wasmtime.v1",
 			"docker.io/ereslibre/wasm-example:0.0.1",
 		))
+
+	return r
+}
+
+func runPHPScript() *demo.Run {
+	r := demo.NewRun(
+		"Run a PHP script",
+	)
+
+	r.Step(demo.S(
+		"Inspect PHP interpreter wasm32-wasi module",
+	), demo.S(
+		"file php-cgi-8.2.6.wasm",
+	))
+
+	r.Step(demo.S(
+		"Run PHP script",
+	), demo.S(
+		"nix run nixpkgs/2eefc1dc8b06fa89331cf54d52c0f899470fedff#wasmtime -- run",
+		"--dir .::/demo php-cgi-8.2.6.wasm",
+		"-- /demo/script.php",
+	))
 
 	return r
 }

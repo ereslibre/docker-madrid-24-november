@@ -31,6 +31,7 @@
           ({pkgs, ...}: {
             env = {
               DOCKER_HOST = "unix:///var/run/docker.sock";
+              WASMTIME_NEW_CLI = "1";
               TERM = "xterm";
             };
             languages = {

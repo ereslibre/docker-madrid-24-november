@@ -17,3 +17,7 @@ build-image:
 run-image:
   clear
   @cd demo && go run . --run-container-image
+
+run-php-script:
+  clear
+  @cd demo && go run . --run-php-script
