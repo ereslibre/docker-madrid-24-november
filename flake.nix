@@ -38,7 +38,7 @@
               c.enable = true;
               go.enable = true;
             };
-            packages = with pkgs; [alejandra bat fermyon-spin just wasmtime];
+            packages = with pkgs; [alejandra bat fermyon-spin just wasm-tools wasmtime];
           })
         ];
       };
