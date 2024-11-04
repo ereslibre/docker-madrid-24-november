@@ -202,6 +202,12 @@ func runContainerImage() *demo.Run {
 	)
 
 	r.Step(demo.S(
+		"Pull container image",
+	), demo.S(
+		"docker pull --platform=wasi/wasm docker.io/ereslibre/wasm-example:0.0.1",
+	))
+
+	r.Step(demo.S(
 		"Inspect container image",
 	), demo.S(
 		"docker inspect docker.io/ereslibre/wasm-example:0.0.1 | jq '.[].Architecture'",
