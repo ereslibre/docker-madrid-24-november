@@ -113,7 +113,7 @@ func runWwsWithRemoteApp() *demo.Run {
 	r.Step(demo.S(
 		"Run wws with a remote app",
 	), demo.S(
-		"wws https://github.com/vmware-labs/wasm-workers-server.git -i",
+		"wws https://github.com/webassemblylabs/wasm-workers-server.git -i",
 		"--git-folder \"examples/ruby-basic\" &",
 	))
 
