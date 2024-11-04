@@ -82,6 +82,18 @@ func runWws() *demo.Run {
 	)
 
 	r.Step(demo.S(
+		"List wws endpoints",
+	), demo.S(
+		"tree ../wws-root",
+	))
+
+	r.Step(demo.S(
+		"Show endpoint-1.js contents",
+	), demo.S(
+		"bat ../wws-root/endpoint-1.js",
+	))
+
+	r.Step(demo.S(
 		"Run wws",
 	), demo.S(
 		"wws ../wws-root &",
