@@ -88,7 +88,7 @@ func runWws() *demo.Run {
 	))
 
 	r.Step(demo.S(
-		"Show endpoint-1.js contents",
+		"Show function contents",
 	), demo.S(
 		"bat ../wws-root/endpoint-1.js",
 	))
@@ -122,6 +122,13 @@ func runWwsWithRemoteApp() *demo.Run {
 	r := demo.NewRun(
 		"Run Wasm Workers Server with a remote app",
 	)
+
+	r.Step(demo.S(
+		"Show function contents",
+	), demo.S(
+		"curl https://raw.githubusercontent.com/webassemblylabs/wasm-workers-server/refs/heads/main/examples/ruby-basic/index.rb |",
+		"bat --language=ruby",
+	))
 
 	r.Step(demo.S(
 		"Run wws with a remote app",
