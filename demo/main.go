@@ -16,6 +16,7 @@ func main() {
 	d.Add(buildContainerImage(), "build-container-image", "Builds a WebAssembly container image")
 	d.Add(runContainerImage(), "run-container-image", "Runs a WebAssembly container image")
 	d.Add(runPHPScript(), "run-php-script", "Runs a PHP script")
+	d.Add(runSpinKube(), "run-spinkube", "Runs SpinKube")
 
 	d.Run()
 }
@@ -257,6 +258,56 @@ func runPHPScript() *demo.Run {
 	return r
 }
 
+func runSpinKube() *demo.Run {
+	r := demo.NewRun(
+		"Run SpinKube",
+	)
+
+	r.Step(demo.S(
+		"Inspect manifest",
+	), demo.S(
+		"bat spinkube-app.yaml",
+	))
+
+	r.Step(demo.S(
+		"Deploy SpinKube app",
+	), demo.S(
+		"kubectl apply -f spinkube-app.yaml",
+	))
+
+	r.Step(demo.S(
+		"Wait for SpinKube app to be ready",
+	), demo.S(
+		"kubectl wait --for=jsonpath='{.status.readyReplicas}'=1",
+		"spinapp.core.spinoperator.dev/simple-spinapp",
+	))
+
+	r.Step(demo.S(
+		"Forward port",
+	), demo.S(
+		"kubectl port-forward services/simple-spinapp 8090:80 &",
+	))
+
+	r.Step(demo.S(
+		"Make a request (Rust endpoint)",
+	), demo.S(
+		"curl -vvv http://localhost:8090/hello",
+	))
+
+	r.Step(demo.S(
+		"Make a request (Go endpoint)",
+	), demo.S(
+		"curl -vvv http://localhost:8090/go-hello",
+	))
+
+	r.Setup(func() error {
+		cleanupSpinKube()
+		return nil
+	})
+
+	return r
+}
+
 func stopWws() error {
 	cmd := exec.Command("pkill", "wws")
 	cmd.Run()
@@ -271,5 +322,13 @@ func stopSpin() error {
 
 func cleanupFermyonSpinProject() error {
 	os.RemoveAll("http-rust-example")
+	return nil
+}
+
+func cleanupSpinKube() error {
+	cmd := exec.Command("pkill", "kubectl")
+	cmd.Run()
+	cmd = exec.Command("kubectl", "delete", "-A", "--all", "spinapp.core.spinoperator.dev")
+	cmd.Run()
 	return nil
 }
