@@ -10,6 +10,7 @@ import (
 func main() {
 	d := demo.New()
 
+	d.Add(runStrace(), "strace", "Strace example")
 	d.Add(initFermyonSpinProject(), "init-fermyon-spin-project", "Creates an empty Fermyon Spin project")
 	d.Add(runWws(), "run-wws", "Run Wasm Workers Server (wws)")
 	d.Add(runWwsWithRemoteApp(), "run-wws-with-remote", "Run Wasm Workers Server with remote app (wws)")
@@ -19,6 +20,28 @@ func main() {
 	d.Add(runSpinKube(), "run-spinkube", "Runs SpinKube")
 
 	d.Run()
+}
+
+func runStrace() *demo.Run {
+	r := demo.NewRun(
+		"Strace HTTP request example",
+	)
+
+	r.Step(demo.S(
+		"Perform HTTP request with summarized output",
+	), demo.S(
+		"strace -c --follow-forks -- ",
+		"curl -s https://www.google.com 1> /dev/null",
+	))
+
+	r.Step(demo.S(
+		"Perform HTTP request with regular output",
+	), demo.S(
+		"strace --follow-forks -- ",
+		"curl -s https://www.google.com 1> /dev/null",
+	))
+
+	return r
 }
 
 func initFermyonSpinProject() *demo.Run {

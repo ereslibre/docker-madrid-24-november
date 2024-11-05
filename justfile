@@ -1,3 +1,7 @@
+strace:
+  clear
+  @cd demo && go run . --strace
+
 build-image:
   clear
   @cd demo && go run . --build-container-image
