@@ -272,6 +272,12 @@ func runPHPScript() *demo.Run {
 	))
 
 	r.Step(demo.S(
+		"Inspect PHP interpreter wasm32-wasi module",
+	), demo.S(
+		"sha1sum php-cgi-8.2.6.wasm",
+	))
+
+	r.Step(demo.S(
 		"Inspect PHP script",
 	), demo.S(
 		"bat script.php",
